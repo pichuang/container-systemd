@@ -1,0 +1,28 @@
+[Unit]
+Description=MySQL Docker container
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+TimeoutStartSec=5m
+Restart=always
+RestartSec=30s
+EnvironmentFile=/etc/sysconfig/mysql
+ExecStartPre=-/usr/bin/docker pull ${MYSQL_IMAGE}
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/usr/bin/docker run \
+  --env MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+  --env MYSQL_USER=${MYSQL_USER} \
+  --env MYSQL_PASSWORD=${MYSQL_PASSWORD} \
+  --env MYSQL_DATABASE=${MYSQL_DATABASE} \
+  --net=host \
+  --volume ${MYSQL_CONTAINER_STORAGE_DIR}:${MYSQL_HOST_STORAGE_DIR}:Z \
+  --publish ${MYSQL_HOST_PORT}:${MYSQL_CONTAINER_PORT} \
+  --name %n \
+  ${MYSQL_IMAGE}
+ExecStop=-/usr/bin/docker stop %n
+ExecReload=-/usr/bin/docker restart %n
+
+[Install]
+WantedBy=multi-user.target

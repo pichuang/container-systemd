@@ -1,0 +1,9 @@
+MYSQL_IMAGE=registry.access.redhat.com/rhscl/mysql-57-rhel7:latest
+MYSQL_USER=quay
+MYSQL_PASSWORD=quay
+MYSQL_ROOT_PASSWORD=quayadmin
+MYSQL_DATABASE=quay
+MYSQL_CONTAINER_STORAGE_DIR=/var/lib/mysql/data
+MYSQL_HOST_STORAGE_DIR=/var/lib/mysql-quay
+MYSQL_HOST_PORT=3306
+MYSQL_CONTAINER_PORT=3306
